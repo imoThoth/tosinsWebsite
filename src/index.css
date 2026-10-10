@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Special+Elite&display=swap");
+@import "tailwindcss";
+
+/* Design tokens. Light values first; the two dark blocks only redefine what changes. */
+:root {
+  color-scheme: light;
+  --ink: #f3ecff;      /* page ground */
+  --fg: #0a0518;       /* text on the page ground */
+  --note: #5a2bd6;     /* small accent text on the page ground */
+  --speed: #c9b3ff;    /* hero speed lines */
+  --line: #0a0518;     /* panel outlines and hard shadows */
+  --paper: #fff6e0;    /* case-file paper, light text */
+  --pink: #ff3d8b;
+  --yellow: #ffd60a;
+  --cyan: #2de2e6;
+  --lime: #b6f23c;
+  --violet: #7b4dff;
+  --string: #ff2e2e;   /* evidence-board string */
+  --display: "Bangers", "Impact", "Arial Narrow Bold", sans-serif;
+  --body: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --file: "Special Elite", "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --ink: #2a1a5e; --fg: #fff6e0; --note: #2de2e6; --speed: #7b4dff; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --ink: #2a1a5e; --fg: #fff6e0; --note: #2de2e6; --speed: #7b4dff; }
+
+/* Expose the tokens to Tailwind: bg-pink, text-note, font-display, etc. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-fg: var(--fg);
+  --color-note: var(--note);
+  --color-line: var(--line);
+  --color-paper: var(--paper);
+  --color-pink: var(--pink);
+  --color-yellow: var(--yellow);
+  --color-cyan: var(--cyan);
+  --color-lime: var(--lime);
+  --color-violet: var(--violet);
+  --color-string: var(--string);
+  --font-display: var(--display);
+  --font-body: var(--body);
+  --font-file: var(--file);
+}
+
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ink); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; transition: background .3s; }
+h1, h2, h3 { text-wrap: balance; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+.panel { border: 3px solid var(--line); box-shadow: 7px 7px 0 var(--line); }
+.halftone { background-image: radial-gradient(var(--line) 1.2px, transparent 1.4px); background-size: 9px 9px; }
+.sfx { -webkit-text-stroke: 5px var(--line); paint-order: stroke fill; text-shadow: 4px 4px 0 var(--line); }
+
+/* hero */
+.speed { position: absolute; inset: -60%; background: repeating-conic-gradient(from 0deg, var(--speed) 0deg 3deg, transparent 3deg 9deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 22%, #000 60%); mask-image: radial-gradient(circle, transparent 22%, #000 60%);
+  opacity: .55; animation: spin 60s linear infinite; }
+.name { font-family: var(--display); letter-spacing: .03em; line-height: .9; color: var(--yellow);
+  -webkit-text-stroke: 6px var(--line); paint-order: stroke fill; text-shadow: 4px 4px 0 var(--pink), 8px 8px 0 var(--line); }
+.name span { display: inline-block; animation: slam .7s cubic-bezier(.2,1.6,.4,1) both; }
+.stamp { font-family: var(--file); border: 3px solid currentColor; padding: .15em .6em; text-transform: uppercase; letter-spacing: .12em; display: inline-block; }
+.wobble { animation: wobble 5s ease-in-out infinite; }
+.eq i { display: block; width: 6px; height: 28px; background: var(--lime); transform-origin: bottom; animation: eq 1s ease-in-out infinite; }
+.eq i:nth-child(2) { animation-duration: .7s; background: var(--cyan); }
+.eq i:nth-child(3) { animation-duration: 1.3s; background: var(--pink); }
+.eq i:nth-child(4) { animation-duration: .85s; background: var(--yellow); }
+.eq i:nth-child(5) { animation-duration: 1.1s; }
+
+.ticker { display: flex; width: max-content; animation: slide 38s linear infinite; }
+.ticker:hover { animation-play-state: paused; }
+
+/* case file */
+.redact { background: var(--line); color: var(--line); cursor: pointer; padding: 0 .2em; transition: background .25s, color .25s; }
+.redact:hover, .redact:focus, .redact.open { background: var(--yellow); color: var(--line); }
+
+/* arcs */
+.string { position: absolute; left: 13px; top: 0; bottom: 0; width: 3px; background: var(--string); transform: rotate(.4deg); transform-origin: top; }
+.pin { position: absolute; left: -45px; top: 26px; width: 23px; height: 23px; border-radius: 50%; background: var(--string); border: 3px solid var(--line); animation: pulse 2.4s ease-in-out infinite; }
+.reveal.in { animation: drop .6s cubic-bezier(.2,1.4,.4,1) both; }
+.tilt { transition: transform .2s; }
+.tilt:hover { transform: translate(-3px,-3px) rotate(-.6deg); }
+
+/* bookshelf */
+.shelf { border-bottom: 10px solid var(--line); box-shadow: 0 6px 0 var(--violet); }
+.spine { writing-mode: vertical-rl; border: 3px solid var(--line); color: var(--line); font-weight: 800; font-size: 14px; padding: 12px 7px; min-height: 120px;
+  display: flex; align-items: center; justify-content: center; transition: transform .2s; white-space: nowrap; }
+.spine:hover { transform: translateY(-12px) rotate(-3deg); }
+
+/* off the clock */
+.vinyl { border-radius: 50%; background: repeating-radial-gradient(circle, var(--line) 0 3px, #2a1d55 3px 5px); animation: spin 4s linear infinite; position: relative; }
+.vinyl::after { content: ""; position: absolute; inset: 34%; border-radius: 50%; background: var(--pink); border: 3px solid var(--line); }
+.eye { animation: blink 4s infinite; transform-origin: center; transform-box: fill-box; }
+.float { animation: float 3.5s ease-in-out infinite; }
+.slot { border: 2px dashed var(--line); font-family: var(--file); font-size: 14px; padding: .35em .7em; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slam { from { transform: translateY(-70px) scale(1.7) rotate(-12deg); } to { transform: none; } }
+@keyframes wobble { 0%,100% { transform: rotate(-7deg); } 50% { transform: rotate(-3deg) scale(1.04); } }
+@keyframes eq { 0%,100% { transform: scaleY(.25); } 50% { transform: scaleY(1); } }
+@keyframes slide { to { transform: translateX(-50%); } }
+@keyframes pulse { 50% { transform: scale(1.25); } }
+@keyframes drop { from { transform: translateY(34px) rotate(-1.5deg); } to { transform: none; } }
+@keyframes blink { 0%,92%,100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes float { 50% { transform: translateY(-8px) rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
