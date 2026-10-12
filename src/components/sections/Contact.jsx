@@ -18,4 +18,4 @@ export default function Contact() {
       </div>
     </footer>
   );
-}s
+}
